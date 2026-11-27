@@ -1,0 +1,23 @@
+name: ${COMPOSE_PROJECT_NAME:-fpga-component-search}
+
+services:
+  sim:
+    build:
+      context: .
+      target: test
+    working_dir: /workspace
+    command: ["make", "test"]
+    volumes:
+      - .:/workspace
+      - verilator_build:/workspace/build/obj_dir
+    networks:
+      - project
+    init: true
+
+volumes:
+  verilator_build:
+
+networks:
+  project:
+    driver: bridge
+    internal: true
